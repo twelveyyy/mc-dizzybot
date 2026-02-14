@@ -4,7 +4,6 @@ import platform
 
 def get_temporary_ipv6():
     system = platform.system()
-
     try:
         if system == "Windows":
             # Run ipconfig
@@ -29,3 +28,5 @@ def get_temporary_ipv6():
         return None
 
     return None
+if __name__ == "__main__":
+    print(get_temporary_ipv6())
