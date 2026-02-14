@@ -1,0 +1,17 @@
+import discord
+from discord import app_commands
+from discord.ext import commands
+
+class Ping(commands.Cog):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
+
+    @app_commands.command(name="ping", description="Replies with Pong!")
+    async def ping(self, interaction: discord.Interaction):
+        # We access the bot instance via self.bot
+        latency = round(self.bot.latency * 1000)
+        await interaction.response.send_message(f"Pong! Latency: {latency}ms")
+
+async def setup(bot: commands.Bot):
+    # This function is required to load the Cog
+    await bot.add_cog(Ping(bot))

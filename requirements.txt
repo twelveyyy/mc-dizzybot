@@ -1,4 +1,5 @@
 discord.py
 python-dotenv
 
+#temp_IPv6_resolver
 psutil
