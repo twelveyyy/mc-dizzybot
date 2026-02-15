@@ -25,28 +25,34 @@
    > java @user_jvm_args.txt @libraries/net/minecraftforge/forge/1.20.1-47.4.16/win_args.txt %*
    - Create a new file named startServer.bat and wrap the command with the following script:
    ```
+   :: -----------------------  ABOVE  -------------------------
+   
    @echo off
-   :: ############### ABOVE ###############
-   echo [Launcher] Notifying DizzyBot (Online)...
+   
+   echo [Starter]: Feuerbereit!
+   :: Notify DizzyBot
    call "%~dp0notifyDizzy.bat" on
-   echo [Launcher] Starting Minecraft Forge...
-   start "" /b ^
-   :: ############### ABOVE ###############
+   echo [Starter]: ON SIGNAL passed to notifyDizzy.bat
    
-   java @user_jvm_args.txt @libraries/net/minecraftforge/forge/1.20.1-47.4.16/win_args.txt %*
+   :: -----------------------  ABOVE  -------------------------
    
-   :: ############### BELOW ###############
-   :: Get the newest java process (the one we just launched)
-   for /f "tokens=2 delims=," %%p in ('
-       wmic process where "name='java.exe'" get processid /format:csv ^| findstr /r "[0-9]"
-   ') do (
-       set SERVER_PID=%%p
+   set "SERVER_ARGS=@user_jvm_args.txt @libraries/net/minecraftforge/forge/1.20.1-47.4.16/win_args.txt %*"
+   
+   :: -----------------------  BELOW  -------------------------
+   
+   :: Launch & Capture PID
+   for /f "usebackq tokens=*" %%A in (`powershell -Command "Start-Process java -ArgumentList $env:SERVER_ARGS -PassThru | Select-Object -ExpandProperty Id"`) do (
+       set SERVER_PID=%%A
    )
-   echo [Launcher] Server PID = %SERVER_PID%
-   echo %SERVER_PID% > "%~dp0server.pid"
-   echo [Launcher] Starting watchdog...
-   start "" /min cmd /c "%~dp0watchServer.bat %SERVER_PID%"
-   pause
-   :: ############### BELOW ###############
+   echo [Starter]: Server PID %SERVER_PID%
+   :: Start watchdog using the PID as the first argument (%1)
+   echo [Starter]: Starting watchdog watchServer.bat
+   start "Watchdog" /min "%~dp0watchServer.bat" %SERVER_PID%
+   echo [Starter]: Exiting..
+   echo [Starter]: Closing in 5 seconds (Press Ctrl+C to keep terminal open)
+   timeout /t 5
+   exit /b 0
+   
+   :: -----------------------  BELOW  -------------------------
    ```
    - **Always start the server using `startServer.bat`**
