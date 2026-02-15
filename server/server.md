@@ -51,7 +51,7 @@
    echo [Starter]: Exiting..
    echo [Starter]: Closing in 5 seconds (Press Ctrl+C to keep terminal open)
    timeout /t 5
-   exit /b 0
+   exit 0
    
    :: -----------------------  BELOW  -------------------------
    ```
