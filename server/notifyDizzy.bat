@@ -36,7 +36,9 @@ if /I "%MODE%"=="off" (
 
 :: 1. Resolve IPv6
 echo [Updater] Running get_temp_ipv6.py...
-for /f "tokens=*" %%a in ('"%PYTHON_EXE%" get_temp_ipv6.py') do (
+for /f "usebackq delims=" %%a in (`
+    cmd /c ""%PYTHON_EXE%" "%~dp0get_temp_ipv6.py""
+`) do (
     set "S_IPV6=%%a"
     echo [DEBUG] Captured IPv6: "%%a"
 )
