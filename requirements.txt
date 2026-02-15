@@ -1,5 +1,8 @@
 discord.py
 python-dotenv
 
-#temp_IPv6_resolver
+#get_temp_ipv6.py
 psutil
+
+#mc_announce.py
+requests
