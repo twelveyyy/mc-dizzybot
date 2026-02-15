@@ -17,8 +17,9 @@ def run():
     if not WEBHOOK_URL:
         print(WEBHOOK_URL)
         print("ERROR: WEBHOOK_URL is not set! Check your environment variables.")
-        # WEBHOOK_URL = "https://discord.com/api/webhooks/..."
+        # WEBHOOK_URL=https://discord.com/api/webhooks/..."
         sys.exit(1)
+
     mode = sys.argv[1].lower() if len(sys.argv) > 1 else "on"
     current_time = datetime.datetime.now()
     time_ran_str = ""
