@@ -3,15 +3,22 @@ import json
 import datetime
 import sys
 import os
+from dotenv import load_dotenv
 
 # --- CONFIGURATION ---
-WEBHOOK_URL = "https://discord.com/api/webhooks/1472266530870919273/7Nzk1TyXRic39E2-rjp-K5As8MIO_TveIxGokmToVGiaFTNcPTn6Moa2p4Yb1iEU5Ykl"
+load_dotenv()
+WEBHOOK_URL = os.getenv('MC_ANNOUNCE_SERVER_WEBHOOK_URL')
 FILE_NAME = "server_info.json"
 # ---------------------
 
 # Usage: python mc_announce.py on/off Name IPv6 Port
 
 def run():
+    if not WEBHOOK_URL:
+        print(WEBHOOK_URL)
+        print("ERROR: WEBHOOK_URL is not set! Check your environment variables.")
+        # WEBHOOK_URL = "https://discord.com/api/webhooks/..."
+        sys.exit(1)
     mode = sys.argv[1].lower() if len(sys.argv) > 1 else "on"
     current_time = datetime.datetime.now()
     time_ran_str = ""
